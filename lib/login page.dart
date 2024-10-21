@@ -1,7 +1,8 @@
 import 'dart:convert'; // For jsonEncode
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:parlour_app/homepage.dart'; // Ensure you import your HomePage widget
+import 'package:parlour_app/homepage.dart';
+import 'package:parlour_app/registerpage.dart'; // Ensure you import your HomePage widget
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -68,9 +69,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _navigateToSignUp() {
-    // Implement navigation to sign-up page here
-  }
+ void _navigateToRegisterPage() {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => RegisterPage()),
+  );
+}
 
   void _forgotPassword() {
     // Implement forgot password functionality here
@@ -180,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
             TextButton(
-              onPressed: _navigateToSignUp,
+              onPressed: _navigateToRegisterPage,
               child: const Text(
                 'Sign Up',
                 style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
