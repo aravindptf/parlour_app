@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:parlour_app/login%20page.dart';
-import 'package:parlour_app/registerpage.dart';
-import 'package:parlour_app/imageuploadpage.dart';
 
 void main() {
   runApp(const MyApp());
