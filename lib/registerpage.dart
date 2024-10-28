@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parlour_app/imageuploadpage.dart';
+import 'package:parlour_app/preview_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -10,14 +11,19 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  String? _parlourname, _email, _phone, _password, _location, _description, _licenceNumber;
+  String? _parlourname,
+      _email,
+      _phone,
+      _password,
+      _location,
+      _description,
+      _licenceNumber;
   String? _confirmPassword;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      Stack(
+      body: Stack(
         fit: StackFit.expand,
         children: [
           // Background Image
@@ -35,10 +41,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     AppBar(
-                      title: Center(child: Text('Register',
-                      style: TextStyle(color: Colors.black),
+                      title: Center(
+                          child: Text(
+                        'Register',
+                        style: TextStyle(color: Colors.black),
                       )),
-                      backgroundColor: Colors.transparent, // Make AppBar transparent
+                      backgroundColor:
+                          Colors.transparent, // Make AppBar transparent
                       elevation: 0, // Remove shadow
                     ),
                     const SizedBox(height: 16.0),
@@ -48,9 +57,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Parlour Name',
                         labelStyle: TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.8), // Semi-transparent background
+                        fillColor: Colors.white
+                            .withOpacity(0.8), // Semi-transparent background
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -67,8 +78,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Description',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
@@ -88,8 +99,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Location',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                         suffixIcon: IconButton(
@@ -114,15 +125,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Email',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
-                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                            .hasMatch(value)) {
                           return 'Please enter a valid email';
                         }
                         return null;
@@ -132,23 +144,28 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 16.0),
 
                     // Phone Field
+                    // Phone Field
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Phone Number',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your phone number';
+                        } else if (value.length != 10 ||
+                            !RegExp(r'^\d{10}$').hasMatch(value)) {
+                          return 'Please enter a valid 10-digit phone number';
                         }
                         return null;
                       },
                       onSaved: (value) => _phone = value,
                     ),
+
                     const SizedBox(height: 16.0),
 
                     // Parlour Licence Number Field
@@ -156,8 +173,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Parlour Licence Number',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
@@ -176,8 +193,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Password',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
@@ -199,8 +216,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
                         labelStyle: TextStyle(color: Colors.black),
-
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30)),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
@@ -223,22 +240,27 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          // Navigate to ImageUploadPage and pass data
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ImageUploadPage(
-                            parlourName: _parlourname!,
-                            location: _location!,
-                            email: _email!,
-                            phone: _phone!,
-                            password: _password!,
-                            description: _description!,
-                            licenceNumber: _licenceNumber!, // Pass the licence number
-                          )));
+                          // Navigate to PreviewPage and pass data
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PreviewPage(
+                                        parlourName: _parlourname!,
+                                        location: _location!,
+                                        email: _email!,
+                                        phone: _phone!,
+                                        password: _password!,
+                                        description: _description!,
+                                        licenceNumber: _licenceNumber!,
+                                      )));
 
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
-                              Text('Proceeding with $_parlourname at $_location')));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  'Proceeding with $_parlourname at $_location')));
                         }
                       },
-                      child: const Text('Next', style: TextStyle(color: Colors.black)),
+                      child: const Text('Next',
+                          style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 ),
