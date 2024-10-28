@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Profile',
-        style: GoogleFonts.adamina(
-          textStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          )
-        ),
+        title: Text(
+          'Profile',
+          style: GoogleFonts.adamina(
+            textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
-      
-      // Remove the AppBar to avoid the home page-like appearance
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -34,7 +34,6 @@ class ProfilePage extends StatelessWidget {
               _buildInfoRow('Email', 'dhanoop@example.com'),
               _buildInfoRow('Phone', '+1 234 567 890'),
               SizedBox(height: 20),
-              // Action buttons
               Text(
                 'Actions',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -49,10 +48,7 @@ class ProfilePage extends StatelessWidget {
                 // Navigate to change password screen
               }),
               _buildActionButton('Logout', Icons.logout, () {
-                // Handle logout functionality
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Logged out successfully')),
-                );
+                _showLogoutConfirmationDialog(context);
               }),
             ],
           ),
@@ -98,6 +94,40 @@ class ProfilePage extends StatelessWidget {
         trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
         onTap: onPressed,
       ),
+    );
+  }
+
+  // Method to show logout confirmation dialog
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout Confirmation'),
+          content: Text('Are you sure you want to logout?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                // Handle logout functionality
+                Navigator.of(context).pop(); // Close the dialog
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Logged out successfully')),
+                );
+
+                // Navigate to login page (replace with your actual login page route)
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

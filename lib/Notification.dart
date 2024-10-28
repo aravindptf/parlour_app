@@ -1,49 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class NotificationsPage extends StatelessWidget {
-  // List of mock notifications
+  // Sample notifications list
   final List<String> notifications = [
-    'Appointment confirmed for 25th Oct, 2 PM',
-    'Reminder: Team meeting at 11 AM tomorrow',
-    'New message from manager',
-    'Your leave has been approved',
-    'Product training session on 28th Oct'
+    'Your appointment with Jane Doe is confirmed at 10:00 AM.',
+    'John Smith has canceled his Full Body Massage appointment.',
+    'New promotional offer: 20% off on all services this weekend!',
+    'Reminder: Don’t forget to submit your weekly sales report.',
+    'New client request: Alice Johnson.',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Notifications',
-          style: GoogleFonts.adamina(
-            textStyle: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white,
+        title: Text('Notifications'),
+        backgroundColor: Colors.black,
       ),
-      body: notifications.isEmpty
-          ? Center(
-              child: Text('No notifications yet.'),
-            )
-          : ListView.builder(
+      body: notifications.isNotEmpty
+          ? ListView.builder(
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  elevation: 4,
                   child: ListTile(
-                    leading: Icon(Icons.notifications, color: Colors.blue),
                     title: Text(
                       notifications[index],
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 );
               },
+            )
+          : Center(
+              child: Text(
+                'No notifications available.',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
             ),
     );
   }
