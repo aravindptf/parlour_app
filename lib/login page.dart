@@ -22,19 +22,19 @@ class _LoginPageState extends State<LoginPage> {
       final String password = _passwordController.text;
 
       // Replace with your backend URL
-      final url = 'https://your-backend-api.com/login';
+      final url = 'http://192.168.1.8:8086/parlour/ParlourLogin';
 
       try {
         final response = await http.post(
           Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            'username': username,
-            'password': password,
+            'email': username, // Use the text value here
+            'password': password, // Use the text value here
           }),
         );
 
-        if (response.statusCode == 200) {
+        if (response.statusCode >= 200 && response.statusCode < 300) {
           // Handle successful login
           Navigator.pushReplacement(
             context,
@@ -69,12 +69,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
- void _navigateToRegisterPage() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => RegisterPage()),
-  );
-}
+  void _navigateToRegisterPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterPage()),
+    );
+  }
 
   void _forgotPassword() {
     // Implement forgot password functionality here

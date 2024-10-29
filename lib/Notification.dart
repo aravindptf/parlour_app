@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 class NotificationsPage extends StatelessWidget {
   // Sample notifications list
@@ -15,8 +15,18 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: Text(
+          'Notifications',
+          style: GoogleFonts.adamina(
+            color: Colors.white, // Title color for visibility
+            fontWeight: FontWeight.bold, // Make the title bold
+            fontSize: 20, // Adjust the font size as needed
+          ),
+        ),
         backgroundColor: Colors.black,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Back button color for visibility
+        ),
       ),
       body: notifications.isNotEmpty
           ? ListView.builder(
@@ -27,6 +37,10 @@ class NotificationsPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   elevation: 4,
                   child: ListTile(
+                    leading: Icon(
+                      Icons.notifications, // Notification icon
+                      color: Colors.black, // Icon color
+                    ),
                     title: Text(
                       notifications[index],
                       style: TextStyle(color: Colors.black),
