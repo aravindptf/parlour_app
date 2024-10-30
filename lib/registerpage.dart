@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart'; // Import the package
 import 'package:parlour_app/imageuploadpage.dart';
 import 'package:parlour_app/preview_page.dart';
 
@@ -19,6 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _description,
       _licenceNumber;
   String? _confirmPassword;
+  double _rating = 0; // Variable to hold the rating
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         'Register',
                         style: TextStyle(color: Colors.black),
                       )),
-                      backgroundColor:
-                          Colors.transparent, // Make AppBar transparent
-                      elevation: 0, // Remove shadow
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
                     ),
                     const SizedBox(height: 16.0),
 
@@ -60,8 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30)),
                         filled: true,
-                        fillColor: Colors.white
-                            .withOpacity(0.8), // Semi-transparent background
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -92,6 +92,31 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       onSaved: (value) => _description = value,
                     ),
+                    const SizedBox(height: 16.0),
+
+                    // Display Static Rating
+                    const SizedBox(height: 16.0),
+                    Text(
+                      'Rating: $_rating', // Display the rating value
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    RatingBarIndicator(
+                      rating: _rating,
+                      itemCount: 5,
+                      itemSize: 40.0,
+                      direction: Axis.horizontal,
+                      itemBuilder: (context, _) => Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 1.5),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(height: 16.0),
 
                     // Location Field with Icon Button
@@ -143,7 +168,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 16.0),
 
-                    // Phone Field
                     // Phone Field
                     TextFormField(
                       decoration: InputDecoration(
@@ -232,6 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       onSaved: (value) => _confirmPassword = value,
                     ),
+                    
                     const SizedBox(height: 20.0),
 
                     // Next Button
@@ -252,6 +277,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         password: _password!,
                                         description: _description!,
                                         licenceNumber: _licenceNumber!,
+                                        rating: _rating, // Pass rating to PreviewPage
                                       )));
 
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -262,6 +288,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: const Text('Next',
                           style: TextStyle(color: Colors.black)),
                     ),
+                 
+
                   ],
                 ),
               ),

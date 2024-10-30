@@ -18,7 +18,7 @@ class PreviewPage extends StatelessWidget {
     required this.phone,
     required this.password,
     required this.description,
-    required this.licenceNumber,
+    required this.licenceNumber, required double rating,
   }) : super(key: key);
 
   @override

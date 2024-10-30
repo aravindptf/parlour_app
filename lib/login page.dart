@@ -33,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
             'password': password, // Use the text value here
           }),
         );
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
 
         if (response.statusCode >= 200 && response.statusCode < 300) {
           // Handle successful login
