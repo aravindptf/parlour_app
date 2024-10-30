@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:parlour_app/imageuploadpage.dart';
 
@@ -18,7 +20,7 @@ class PreviewPage extends StatelessWidget {
     required this.phone,
     required this.password,
     required this.description,
-    required this.licenceNumber,
+    required this.licenceNumber, required Pointer<Never> rating,
   }) : super(key: key);
 
   @override
