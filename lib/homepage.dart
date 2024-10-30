@@ -4,9 +4,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:parlour_app/appoinmentpage.dart';
 import 'package:parlour_app/profile.dart';
 import 'package:parlour_app/Notification.dart';
-// Import the new AppointmentDetailsPage
 
 class HomePage extends StatefulWidget {
+  final String token;
+
+  const HomePage({super.key, required this.token});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -63,6 +66,92 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final token = (context.findAncestorWidgetOfExactType<HomePage>() as HomePage).token;
+
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 150,
+        backgroundColor: Colors.black,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Welcome, Dhanoop!',
+                      style: GoogleFonts.adamina(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'SPA SPECIALIST',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.location_on, color: Colors.white, size: 28),
+                onPressed: () {
+                  print('Location button pressed');
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Today\'s Appointments',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              _buildAppointmentCard(context, 'Jane Doe', '10:00 AM', 'Haircut & Styling'),
+              _buildAppointmentCard(context, 'John Smith', '12:00 PM', 'Full Body Massage'),
+              SizedBox(height: 20),
+              Text(
+                'Quick Access',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              _buildQuickAccessButton('Manage Clients', Icons.people),
+              _buildQuickAccessButton('Services', Icons.build),
+              _buildQuickAccessButton('Sales Reports', Icons.bar_chart),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildAppointmentCard(BuildContext context, String name, String time, String service) {
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -161,81 +250,6 @@ class HomeContent extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 150,
-        backgroundColor: Colors.black,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Welcome, Dhanoop!',
-                    style: GoogleFonts.adamina(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'SPA SPECIALIST',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 16,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Today\'s Appointments',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 10),
-              _buildAppointmentCard(context, 'Jane Doe', '10:00 AM', 'Haircut & Styling'),
-              _buildAppointmentCard(context, 'John Smith', '12:00 PM', 'Full Body Massage'),
-              SizedBox(height: 20),
-              Text(
-                'Quick Access',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(height: 10),
-              _buildQuickAccessButton('Manage Clients', Icons.people),
-              _buildQuickAccessButton('Services', Icons.build),
-              _buildQuickAccessButton('Sales Reports', Icons.bar_chart),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 Widget _buildQuickAccessButton(String label, IconData icon) {
@@ -254,4 +268,3 @@ Widget _buildQuickAccessButton(String label, IconData icon) {
     ),
   );
 }
-

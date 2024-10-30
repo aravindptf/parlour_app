@@ -1,8 +1,8 @@
 import 'dart:convert'; // For jsonEncode
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:parlour_app/homepage.dart';
-import 'package:parlour_app/registerpage.dart'; // Ensure you import your HomePage widget
+import 'package:parlour_app/homepage.dart'; // Ensure you import your HomePage widget
+import 'package:parlour_app/registerpage.dart'; // Import your RegisterPage widget
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,23 +29,40 @@ class _LoginPageState extends State<LoginPage> {
           Uri.parse(url),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            'email': username, // Use the text value here
-            'password': password, // Use the text value here
+            'email': username,
+            'password': password,
+            
           }),
         );
 
+        print('Response status: ${response.statusCode}');
+        print('Response headers: ${response.headers}');
+        print('Response body: ${response.body}'); // Log the full response body
+
         if (response.statusCode >= 200 && response.statusCode < 300) {
-          // Handle successful login
+          // Assuming the response body is JSON
+          final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+          print('Full Response: $jsonResponse'); // Log full response map
+
+          // Access the token and other fields you might need
+          final String token = jsonResponse['token']; // Change 'token' to your actual key
+          final String userMessage = jsonResponse['message'] ?? ''; // Example of another field
+
+          print('Token: $token');
+          print('User Message: $userMessage');
+
+          // Show a dialog with additional information
+          _showInfoDialog('Login successful! $userMessage');
+
+          // Navigate to the home page
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => HomePage(token: token)), // Pass token
           );
         } else {
-          // Handle login error (e.g., show an alert)
-          _showErrorDialog('Login failed. Please check your credentials.');
+          _showErrorDialog('Login failed. Please check your credentials. Response: ${response.body}');
         }
       } catch (error) {
-        // Handle exceptions (e.g., show an alert)
         _showErrorDialog('An error occurred. Please try again later.');
       }
     }
@@ -56,6 +73,24 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showInfoDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Info'),
         content: Text(message),
         actions: <Widget>[
           TextButton(

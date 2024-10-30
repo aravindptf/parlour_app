@@ -1,6 +1,23 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:parlour_app/imageuploadpage.dart';
+import 'package:http/http.dart' as http;
 import 'package:parlour_app/preview_page.dart';
+
+class ApiService {
+  final String _baseUrl = 'http://192.168.1.8:8086/parlour/ParlourReg'; // Replace with your API base URL
+
+  Future<bool> registerUser(Map<String, String> data) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/register'), // Update with your endpoint
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(data),
+    );
+
+    return response.statusCode == 200;
+  }
+}
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -19,6 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _description,
       _licenceNumber;
   String? _confirmPassword;
+  final ApiService _apiService = ApiService(); // Create an instance of ApiService
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30)),
                         filled: true,
-                        fillColor: Colors.white
-                            .withOpacity(0.8), // Semi-transparent background
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -144,7 +161,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 16.0),
 
                     // Phone Field
-                    // Phone Field
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Phone Number',
@@ -165,7 +181,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       onSaved: (value) => _phone = value,
                     ),
-
                     const SizedBox(height: 16.0),
 
                     // Parlour Licence Number Field
@@ -236,31 +251,52 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     // Next Button
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          // Navigate to PreviewPage and pass data
-                          Navigator.push(
+                          // Create a map with the registration data
+                          final registrationData = {
+                            'parlourName': _parlourname!,
+                            'location': _location!,
+                            'email': _email!,
+                            'phone': _phone!,
+                            'password': _password!,
+                            'description': _description!,
+                            'licenceNumber': _licenceNumber!,
+                          };
+
+                          // Call the API to register the user
+                          bool success = await _apiService.registerUser(registrationData);
+
+                          if (success) {
+                            // Navigate to PreviewPage and pass data
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PreviewPage(
-                                        parlourName: _parlourname!,
-                                        location: _location!,
-                                        email: _email!,
-                                        phone: _phone!,
-                                        password: _password!,
-                                        description: _description!,
-                                        licenceNumber: _licenceNumber!,
-                                      )));
+                                builder: (context) => PreviewPage(
+                                  parlourName: _parlourname!,
+                                  location: _location!,
+                                  email: _email!,
+                                  phone: _phone!,
+                                  password: _password!,
+                                  description: _description!,
+                                  licenceNumber: _licenceNumber!,
+                                ),
+                              ),
+                            );
 
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  'Proceeding with $_parlourname at $_location')));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Registration successful for $_parlourname')),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Registration failed. Please try again.')),
+                            );
+                          }
                         }
                       },
-                      child: const Text('Next',
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text('Next', style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 ),
